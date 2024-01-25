@@ -18,7 +18,7 @@ echo $deleteStudent;
 }else{
 $data = [
     'status' => 405,
-    'messag' => $requestMethod. 'Method Not Allowed',
+    'message' => $requestMethod. 'Method Not Allowed',
 ];
 header("HTTP/1.0 405 Method Not Allowed");
 echo json_encode($data);

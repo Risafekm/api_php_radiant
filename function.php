@@ -35,7 +35,7 @@ function deleteEduModule($eduModuleparams){
 
         $data = [
             'status' => 200,
-            'messag' => 'Student deleted successfully',
+            'message' => 'Student deleted successfully',
         ];
         header("HTTP/1.0 200  success");
         return json_encode($data);
@@ -43,7 +43,7 @@ function deleteEduModule($eduModuleparams){
     }else{
         $data = [
             'status' => 404,
-            'messag' => 'Student not found',
+            'message' => 'Student not found',
         ];
         header("HTTP/1.0 400  Not found");
         return json_encode($data);
@@ -176,7 +176,7 @@ return json_encode($data);
 }else{
     $data = [
         'status' => 404,
-        'messag' => 'No Student Found',
+        'message' => 'No Student Found',
     ];
     header("HTTP/1.0 404  No Student Found");
     return json_encode($data);
@@ -185,7 +185,55 @@ return json_encode($data);
 }else{
     $data = [
         'status' => 500,
-        'messag' => 'Internal Server Error',
+        'message' => 'Internal Server Error',
+    ];
+    header("HTTP/1.0 500  Internal Server Error");
+    return json_encode($data);
+}
+
+}
+
+function geteduModule($eduModuleparams){
+
+global $conn;
+
+
+if($eduModuleparams['mtest_id'] == null){
+    return error422('Enter your id');
+   }
+
+$edumoduleId = mysqli_real_escape_string($conn, $eduModuleparams['mtest_id']);
+
+$query = "SELECT * FROM `edu_module_tests` WHERE `mtest_id` = '$edumoduleId' LIMIT 1";
+$result = mysqli_query($conn,$query);
+
+if($result){
+
+ if(mysqli_num_rows($result) == 1){
+ 
+    $res = mysqli_fetch_assoc($result);
+    $data = [
+        'status' => 200,
+        'message' => 'Edumodule Fetched Successfully',
+        'data' => $res
+    ];
+    header("HTTP/1.0 200  Success");
+    return json_encode($data);
+
+
+ }else{
+ $data = [
+        'status' => 404,
+        'message' => 'No Edumodules Found',
+    ];
+    header("HTTP/1.0 404  Not found");
+    return json_encode($data);
+ }
+
+}else{
+    $data = [
+        'status' => 500,
+        'message' => 'Internal Server Error',
     ];
     header("HTTP/1.0 500  Internal Server Error");
     return json_encode($data);
